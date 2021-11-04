@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -43,7 +44,7 @@ class _CreatePageState extends State<CreatePage> {
   Widget _buildBody() {
     return  SingleChildScrollView(
       child: Column(children: [
-        _image == null ? Text('No Image') : Image.file(File(_image!.path)),
+        _image == null ? Text('No Image') : kIsWeb ? Image.network(_image!.path) : Image.file(File(_image!.path)),
         TextField(
           decoration: InputDecoration(hintText: '내용을 입력하세요'),
           controller: textEditingController,
