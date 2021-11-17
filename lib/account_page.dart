@@ -1,13 +1,20 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
+  final User? user;
+
+  AccountPage(this.user);
+  //const AccountPage({Key? key}) : super(key: key);
 
   @override
   _AccountPageState createState() => _AccountPageState();
 }
 
 class _AccountPageState extends State<AccountPage> {
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,12 +23,28 @@ class _AccountPageState extends State<AccountPage> {
     );
   }
 
+  int _postCount = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance.collection('post').where('email', isEqualTo: widget.user!.email)
+    .get().then((snapshot) {
+      setState(() {
+        _postCount = snapshot.docs.length;
+      });
+    });
+  }
+
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
       backgroundColor: Colors.white,
       actions: [
         IconButton(
-          onPressed: () => {},
+          onPressed: () {
+            FirebaseAuth.instance.signOut();
+            _googleSignIn.signOut();
+          },
           icon: Icon(Icons.exit_to_app),
           color: Colors.black,
         ),
@@ -45,7 +68,7 @@ class _AccountPageState extends State<AccountPage> {
                     height: 80.0,
                     child: CircleAvatar(
                       backgroundImage: NetworkImage(
-                          'https://avatars.githubusercontent.com/u/6658563?v=4'),
+                          widget.user!.photoURL!),
                     ),
                   ),
                   Container(
@@ -79,13 +102,13 @@ class _AccountPageState extends State<AccountPage> {
               ),
               Padding(padding: EdgeInsets.all(8.0)),
               Text(
-                '이름',
+                widget.user!.displayName!,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
               )
             ],
           ),
           Text(
-            '0\n게시물',
+            '$_postCount\n게시물',
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 18.0),
           ),

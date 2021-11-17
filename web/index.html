@@ -30,6 +30,23 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+<script src="https://www.gstatic.com/firebasejs/9.4.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.4.1/firebase-analytics.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyA96HTsa_59cAIvlTdduORd63um4FuNlIw",
+    authDomain: "insta-clone-94d62.firebaseapp.com",
+    projectId: "insta-clone-94d62",
+    storageBucket: "insta-clone-94d62.appspot.com",
+    messagingSenderId: "930304878125",
+    appId: "1:930304878125:web:87a9d6ab175e90253dfaa4",
+    measurementId: "G-X884YS4C64"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(app);
+</script>
   <!-- This script installs service_worker.js to provide PWA functionality to
        application. For more information, see:
        https://developers.google.com/web/fundamentals/primers/service-workers -->
