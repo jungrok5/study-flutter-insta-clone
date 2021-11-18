@@ -49,25 +49,48 @@ class _CreatePageState extends State<CreatePage> {
               .ref()
               .child('post')
               .child('${DateTime.now().millisecondsSinceEpoch}.png');
-          final task = firebaseStorageRef.putFile(
-            File(_image!.path), SettableMetadata(contentType: 'image/png'));
 
-          task.then((value) {
-            var downloadUrl = value.ref.getDownloadURL();
-            downloadUrl.then((uri) {
-              var doc = FirebaseFirestore.instance.collection('post').doc();
-              doc.set({
-                'id': doc.id,
-                'photoUrl': uri.toString(),
-                'contents': textEditingController.text,
-                'email': widget.user!.email,
-                'displayName': widget.user!.displayName,
-                'userPhotoUrl': widget.user!.photoURL
-              }).then((v) {
-                Navigator.pop(context);
+          if (kIsWeb) {
+            _image!.readAsBytes().then((data) {
+              final task = firebaseStorageRef.putData(
+                  data, SettableMetadata(contentType: 'image/png'));
+              task.then((value) {
+                var downloadUrl = value.ref.getDownloadURL();
+                downloadUrl.then((uri) {
+                  var doc = FirebaseFirestore.instance.collection('post').doc();
+                  doc.set({
+                    'id': doc.id,
+                    'photoUrl': uri.toString(),
+                    'contents': textEditingController.text,
+                    'email': widget.user!.email,
+                    'displayName': widget.user!.displayName,
+                    'userPhotoUrl': widget.user!.photoURL
+                  }).then((v) {
+                    Navigator.pop(context);
+                  });
+                });
               });
             });
-          });
+          } else {
+            final task = firebaseStorageRef.putFile(
+                File(_image!.path), SettableMetadata(contentType: 'image/png'));
+            task.then((value) {
+              var downloadUrl = value.ref.getDownloadURL();
+              downloadUrl.then((uri) {
+                var doc = FirebaseFirestore.instance.collection('post').doc();
+                doc.set({
+                  'id': doc.id,
+                  'photoUrl': uri.toString(),
+                  'contents': textEditingController.text,
+                  'email': widget.user!.email,
+                  'displayName': widget.user!.displayName,
+                  'userPhotoUrl': widget.user!.photoURL
+                }).then((v) {
+                  Navigator.pop(context);
+                });
+              });
+            });
+          }
         }, icon: const Icon(Icons.send)),
       ],
     );
