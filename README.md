@@ -1,16 +1,6 @@
 # study_flutter_insta_clone
 
-study_flutter_insta_clone
+https://insta-clone-94d62.web.app
+https://study-flutter-insta-clone.netlify.app
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+<img src="https://user-images.githubusercontent.com/6658563/142345433-54a3754b-4a12-4a32-8629-bd2838ed0cce.gif" style="width:350px">
